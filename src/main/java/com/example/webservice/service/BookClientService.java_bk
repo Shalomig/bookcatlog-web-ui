@@ -1,0 +1,83 @@
+
+package com.example.webservice.service;
+
+
+import com.example.webservice.model.Book;
+import javax.ws.rs.core.GenericType;
+import org.glassfish.jersey.client.ClientConfig;
+import org.springframework.stereotype.Service;
+
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.client.Entity;
+import java.util.List;
+
+@Service
+public class BookClientService {
+
+    private final String managementServiceUrl = "http://localhost:1989/api/books";  // API URL
+
+    public List<Book> getAllBooks() {
+        ClientConfig clientConfig = new ClientConfig();
+        Client client = ClientBuilder.newClient(clientConfig);
+        WebTarget target = client.target(managementServiceUrl);
+
+        Response response = target.request(MediaType.APPLICATION_JSON).get();
+        return response.readEntity(new GenericType<List<Book>>() {});  // Convert JSON to List<Book>
+    }
+
+    public Book getBookById(Long id) {
+        ClientConfig clientConfig = new ClientConfig();
+        Client client = ClientBuilder.newClient(clientConfig);
+        WebTarget target = client.target(managementServiceUrl + "/" + id);
+
+        Response response = target.request(MediaType.APPLICATION_JSON).get();
+        return response.readEntity(Book.class);  // Convert JSON to Book
+    }
+
+    public void addBook(Book book) {
+        ClientConfig clientConfig = new ClientConfig();
+        Client client = ClientBuilder.newClient(clientConfig);
+        WebTarget target = client.target(managementServiceUrl);
+
+        Response response = target.request(MediaType.APPLICATION_JSON)
+                .post(Entity.entity(book, MediaType.APPLICATION_JSON));
+
+        if (response.getStatus() != 201) {
+            throw new RuntimeException("Failed to add book: " + response.getStatus());
+        }
+    }
+
+    // New method for updating a book
+    public void updateBook(Long id, Book book) {
+        ClientConfig clientConfig = new ClientConfig();
+        Client client = ClientBuilder.newClient(clientConfig);
+        WebTarget target = client.target(managementServiceUrl + "/" + id);
+
+        Response response = target.request(MediaType.APPLICATION_JSON)
+                .put(Entity.entity(book, MediaType.APPLICATION_JSON));
+
+        if (response.getStatus() != 200) {
+            throw new RuntimeException("Failed to update book: " + response.getStatus());
+        }
+    }
+
+    // New method for deleting a book
+    public void deleteBook(Long id) {
+        ClientConfig clientConfig = new ClientConfig();
+        Client client = ClientBuilder.newClient(clientConfig);
+        WebTarget target = client.target(managementServiceUrl + "/" + id);
+
+        Response response = target.request().delete();
+
+        if (response.getStatus() != 204) {
+            throw new RuntimeException("Failed to delete book: " + response.getStatus());
+        }
+    }
+}
+
+
+

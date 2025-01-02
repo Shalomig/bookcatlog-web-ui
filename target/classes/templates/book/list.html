@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Book Catalogue</title>
+</head>
+<body>
+<h1>Book Catalogue</h1>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>ISBN</th>
+            <th>Publish Date</th>
+            <th>Price (ZAR)</th>
+            <th>Type</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="book : ${books}">
+            <td th:text="${book.name}">Book Name</td>
+            <td th:text="${book.isbn}">123-4567890123</td>
+            <td th:text="${book.publishDate}">01/01/2024</td>
+            <td th:text="${book.price}">100.00</td>
+            <td th:text="${book.bookType}">Hard Cover</td>
+            <td>
+                <a th:href="@{/books/edit/{id}(id=${book.id})}">Edit</a> |
+                <a th:href="@{/books/delete/{id}(id=${book.id})}" onclick="return confirm('Are you sure?');">Delete</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<a href="/books/add">Add New Book</a>
+</body>
+</html>
+
+
+
