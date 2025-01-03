@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Book</title>
+</head>
+<body>
+<h1>Edit Book</h1>
+<!-- Form to edit the book -->
+<form th:action="@{/books/update/{id}(id=${book.id})}" method="post">
+    <!-- Removed hidden input since ID is in the URL -->
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" th:value="${book.name}" required><br>
+
+    <label for="isbn">ISBN:</label>
+    <input type="text" id="isbn" name="isbn" th:value="${book.isbn}" required><br>
+
+    <label for="publishDate">Publish Date:</label>
+    <input type="text" id="publishDate" name="publishDate" th:value="${book.publishDate}" placeholder="dd/MM/yyyy" required><br>
+
+    <label for="price">Price (ZAR):</label>
+    <input type="number" id="price" name="price" th:value="${book.price}" step="0.01" required><br>
+
+    <label for="bookType">Book Type:</label>
+    <select id="bookType" name="bookType" th:value="${book.bookType}">
+        <option value="Hard Cover">Hard Cover</option>
+        <option value="Soft Cover">Soft Cover</option>
+        <option value="eBook">eBook</option>
+    </select><br>
+
+    <button type="submit">Save Changes</button>
+</form>
+
+<a href="/books">Back to List</a>
+</body>
+</html>
+
+
+
+
+

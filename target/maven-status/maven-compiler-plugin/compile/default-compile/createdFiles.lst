@@ -1,0 +1,6 @@
+com/example/webservice/model/Book.class
+com/example/webservice/controller/BookController.class
+com/example/webservice/service/BookService.class
+com/example/webservice/service/BookClientService.class
+com/example/webservice/WebServiceApplication.class
+com/example/webservice/service/BookClientService$1.class
